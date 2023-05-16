@@ -3,6 +3,8 @@
 
 namespace Lani\BelajarPhpMvc\Controller;
 
+use Lani\BelajarPhpMvc\App\View;
+
 class HomeController
 {
 
@@ -12,7 +14,8 @@ class HomeController
             "title" => "Belajar PHP MVC",
             "content" => "Selamat Belajar php mvc"
         ];
-        echo "HomeController.index";
+
+        View::render("Home/index", $model);
     }
 
     public function Hello()
