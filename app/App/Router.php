@@ -9,13 +9,14 @@ class Router
 {
     private static $router = [];
 
-    public static function add(string $method, string $path, string $controller, string $function)
+    public static function add(string $method, string $path, string $controller, string $function, array $middlewares = [])
     {
         self::$router[] = [
             'method' => $method,
             'path' => $path,
             'controller' => $controller,
-            'function' => $function
+            'function' => $function,
+            'middleware' => $middlewares
         ];
     }
 
@@ -35,6 +36,13 @@ class Router
             $petter = "#^" .$route['path'] . "$#";
 
             if (preg_match($petter, $path, $variabel) && $method == $route['method']){
+
+                // memanggil class middleware
+                foreach($route['middleware'] as $middleware)
+                {
+                    $instance = new $middleware;
+                    $instance->before();
+                }
 
                 $function = $route['function'];
                 $controller = new $route['controller'];
